@@ -4,6 +4,7 @@ package com.github.Rharhuky.api.service.impl;
 import com.github.Rharhuky.api.domain.User;
 import com.github.Rharhuky.api.repositories.UserRepository;
 import com.github.Rharhuky.api.service.UserService;
+import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElse(new User());
+        return userRepository.findById(id).orElseThrow(() -> new InfoNotFoundException(("Info nto found")));
     }
 }
