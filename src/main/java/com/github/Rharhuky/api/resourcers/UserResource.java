@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/users")
@@ -21,5 +23,9 @@ public class UserResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok().body(modelMapper.map(userService.findById(id), UserResponse.class));
+    }
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> findAll(){
+        return ResponseEntity.ok( userService.findAll().stream().map(user -> modelMapper.map(user, UserResponse.class)).toList());
     }
 }
