@@ -2,10 +2,12 @@ package com.github.Rharhuky.api.service.impl;
 
 
 import com.github.Rharhuky.api.domain.User;
+import com.github.Rharhuky.api.domain.dto.UserResponse;
 import com.github.Rharhuky.api.repositories.UserRepository;
 import com.github.Rharhuky.api.service.UserService;
 import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public User findById(Long id) {
@@ -24,5 +27,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User create(UserResponse userResponse) {
+        return userRepository.save(modelMapper.map(userResponse, User.class));
     }
 }
