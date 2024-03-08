@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(value = {"id"})
-public class UserResponse {
+public class UserDTO {
 
     private Long id;
     private String name;

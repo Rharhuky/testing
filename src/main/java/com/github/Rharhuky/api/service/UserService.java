@@ -1,7 +1,7 @@
 package com.github.Rharhuky.api.service;
 
 import com.github.Rharhuky.api.domain.User;
-import com.github.Rharhuky.api.domain.dto.UserResponse;
+import com.github.Rharhuky.api.domain.dto.UserDTO;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ public interface UserService {
 
     List<User> findAll();
 
-    User create(UserResponse userResponse);
+    User create(UserDTO userDTO);
 }

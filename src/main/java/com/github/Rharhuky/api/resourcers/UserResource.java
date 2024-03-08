@@ -1,6 +1,6 @@
 package com.github.Rharhuky.api.resourcers;
 
-import com.github.Rharhuky.api.domain.dto.UserResponse;
+import com.github.Rharhuky.api.domain.dto.UserDTO;
 import com.github.Rharhuky.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,21 +19,21 @@ public class UserResource {
     private final ModelMapper modelMapper;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable Long id){
-        return ResponseEntity.ok().body(modelMapper.map(userService.findById(id), UserResponse.class));
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok().body(modelMapper.map(userService.findById(id), UserDTO.class));
     }
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll(){
-        return ResponseEntity.ok( userService.findAll().stream().map(user -> modelMapper.map(user, UserResponse.class)).toList());
+    public ResponseEntity<List<UserDTO>> findAll(){
+        return ResponseEntity.ok( userService.findAll().stream().map(user -> modelMapper.map(user, UserDTO.class)).toList());
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> create(@RequestBody UserResponse userResponse) {
+    public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
 
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
                 .path("/{id}")
-                .buildAndExpand(userService.create(userResponse)
+                .buildAndExpand(userService.create(userDTO)
                         .getId())
                 .toUri();
 
