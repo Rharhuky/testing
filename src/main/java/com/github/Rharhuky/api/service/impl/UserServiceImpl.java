@@ -41,4 +41,12 @@ public class UserServiceImpl implements UserService {
             throw new DataIntegratyViolationException("Email já cadastrado :/");
         });
     }
+
+    @Override
+    public User update(Long id, UserDTO userDTO) {
+        var user = userRepository.findById(id).orElseThrow(InfoNotFoundException::new);
+        userDTO.setId(id);
+        modelMapper.map(userDTO, user);
+        return userRepository.save(user);
+    }
 }
