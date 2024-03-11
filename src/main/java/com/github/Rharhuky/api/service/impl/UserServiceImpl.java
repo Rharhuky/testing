@@ -7,18 +7,18 @@ import com.github.Rharhuky.api.repositories.UserRepository;
 import com.github.Rharhuky.api.service.UserService;
 import com.github.Rharhuky.api.service.exceptions.DataIntegratyViolationException;
 import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
+    private UserRepository userRepository;
+    private  ModelMapper modelMapper;
 
     @Override
     public User findById(Long id) {
