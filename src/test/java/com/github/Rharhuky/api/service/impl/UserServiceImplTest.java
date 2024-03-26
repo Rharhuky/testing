@@ -3,17 +3,21 @@ package com.github.Rharhuky.api.service.impl;
 import com.github.Rharhuky.api.domain.User;
 import com.github.Rharhuky.api.domain.dto.UserDTO;
 import com.github.Rharhuky.api.repositories.UserRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -43,10 +47,13 @@ class UserServiceImplTest {
     }
 
     @Test
+    @DisplayName(value = "Return user Instance")
     void whenFindByIdReturnUserInstance() {
-        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
+        when(userRepository.findById(anyLong())).thenReturn(optionalUser);
         User theUser = userService.findById(ID);
-        Assertions.assertEquals(User.class, theUser.getClass());
+        assertNotNull(theUser, "Should be not Null");
+        assertEquals(User.class, theUser.getClass());
+        assertEquals(ID, theUser.getId());
 
     }
 
