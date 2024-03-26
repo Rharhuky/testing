@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new InfoNotFoundException(("Info nto found")));
+        return userRepository.findById(id).orElseThrow(() -> new InfoNotFoundException(("Info not found")));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(Long id, UserDTO userDTO) {
-        var user = userRepository.findById(id).orElseThrow(InfoNotFoundException::new);
+        var user = userRepository.findById(id).orElseThrow(() -> new InfoNotFoundException("Info not found"));
         userDTO.setId(id);
         modelMapper.map(userDTO, user);
         return userRepository.save(user);

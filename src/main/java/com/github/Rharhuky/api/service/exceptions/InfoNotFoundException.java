@@ -10,6 +10,4 @@ public class InfoNotFoundException extends RuntimeException{
         super(message);
     }
 
-    public InfoNotFoundException() {
-    }
 }

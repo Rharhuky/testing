@@ -3,6 +3,7 @@ package com.github.Rharhuky.api.service.impl;
 import com.github.Rharhuky.api.domain.User;
 import com.github.Rharhuky.api.domain.dto.UserDTO;
 import com.github.Rharhuky.api.repositories.UserRepository;
+import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ class UserServiceImplTest {
     public static final String NAME = "Rharhuky";
     public static final String EMAIL = "rharhuky@gmail.com";
     public static final String PASSWORD = "3333";
+    public static final String INFO_NOT_FOUND = "Info not found";
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -56,6 +58,21 @@ class UserServiceImplTest {
         assertEquals(ID, theUser.getId());
 
     }
+
+    @Test
+    @DisplayName(value = "Throw Info Not Found Exception")
+    void whenFindByIdReturnsObjectNotFoundException(){
+        when(userRepository.findById(anyLong())).thenThrow(new InfoNotFoundException(INFO_NOT_FOUND));
+        try{
+            userService.findById(ID);
+        }
+        catch (Exception exception){
+            assertEquals(InfoNotFoundException.class, exception.getClass());
+            assertEquals(INFO_NOT_FOUND, exception.getMessage());
+        }
+    }
+
+
 
     @Test
     void findAll() {
