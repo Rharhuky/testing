@@ -3,9 +3,11 @@ package com.github.Rharhuky.api.service.impl;
 import com.github.Rharhuky.api.domain.User;
 import com.github.Rharhuky.api.domain.dto.UserDTO;
 import com.github.Rharhuky.api.repositories.UserRepository;
+import com.github.Rharhuky.api.service.exceptions.DataIntegratyViolationException;
 import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,11 +15,12 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -28,6 +31,7 @@ class UserServiceImplTest {
     public static final String EMAIL = "rharhuky@gmail.com";
     public static final String PASSWORD = "3333";
     public static final String INFO_NOT_FOUND = "Info not found";
+    public static final String EMAIL_JA_CADASTRADO = "Email já cadastrado :/";
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -61,6 +65,7 @@ class UserServiceImplTest {
 
     @Test
     @DisplayName(value = "Throw Info Not Found Exception")
+    @Tag(value = "Erros")
     void whenFindByIdReturnsObjectNotFoundException(){
         when(userRepository.findById(anyLong())).thenThrow(new InfoNotFoundException(INFO_NOT_FOUND));
         try{
@@ -72,14 +77,50 @@ class UserServiceImplTest {
         }
     }
 
-
-
     @Test
+    @DisplayName(value = "Return An List of Users")
     void findAll() {
+        when(userService.findAll()).thenReturn(List.of(user));
+
+        var theUsers = userService.findAll();
+
+        assertNotNull(theUsers, "It should not be Null bro :/");
+
+        var theUser = theUsers.get(0);
+
+        assertEquals(ID, theUser.getId());
+        assertEquals(NAME, theUser.getName());
+        assertEquals(EMAIL, theUser.getEmail());
+        assertEquals(PASSWORD, theUser.getPassword());
+
     }
 
     @Test
+    @DisplayName(value = "Sucess on Create an User")
     void create() {
+        when(userRepository.save(any())).thenReturn(user);
+
+        var anUser = userService.create(userDTO);
+
+        assertNotNull(anUser, "Should Be not null !!!");
+        assertEquals(User.class, anUser.getClass());
+        assertEquals(ID, anUser.getId());
+    }
+
+    @Test
+    @DisplayName(value = "Throw DataIntegrityViolationException on Create User")
+    @Tag(value = "Erros")
+    void createWithSameEmail(){
+        when(userRepository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            var anUser = userService.create(userDTO);
+
+        }
+        catch (Exception exception){
+            assertEquals(DataIntegratyViolationException.class, exception.getClass());
+            assertEquals(EMAIL_JA_CADASTRADO, exception.getMessage());
+        }
     }
 
     @Test
