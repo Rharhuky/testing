@@ -124,7 +124,29 @@ class UserServiceImplTest {
     }
 
     @Test
-    void update() {
+    @DisplayName(value = "UpdateWithSucess")
+    void updateWithSucess() {
+        when(userRepository.save(any())).thenReturn(user);
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+        var anUser = userService.update(user.getId(), userDTO);
+
+        assertNotNull(anUser, "Should Be not null !!!");
+        assertEquals(User.class, anUser.getClass());
+        assertEquals(ID, anUser.getId());
+    }
+    @Test
+    @DisplayName(value = "UpdateWithNoSucess")
+    void updateWithoutSucess() {
+        when(userRepository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            var anUser = userService.create(userDTO);
+
+        }
+        catch (Exception exception){
+            assertEquals(DataIntegratyViolationException.class, exception.getClass());
+            assertEquals(EMAIL_JA_CADASTRADO, exception.getMessage());
+        }
     }
 
     @Test
