@@ -159,6 +159,13 @@ class UserServiceImplTest {
     }
     @Test
     void deleteWithoutSucess() {
+        when(userRepository.findById(anyLong())).thenThrow(new InfoNotFoundException(INFO_NOT_FOUND));
+        try{
+            userService.delete(ID);
+        } catch (Exception e) {
+            assertEquals(INFO_NOT_FOUND, e.getMessage());
+        }
+
     }
 
     private void startUser(){
