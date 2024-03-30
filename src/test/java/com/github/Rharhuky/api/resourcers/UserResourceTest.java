@@ -11,7 +11,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,6 +30,7 @@ class UserResourceTest {
     public static final String NAME = "Rharhuky";
     public static final String EMAIL = "rharhuky@gmail.com";
     public static final String PASSWORD = "202020";
+    public static final int DEFAULT_INDEX = 0;
 
     private User user;
 
@@ -68,7 +73,22 @@ class UserResourceTest {
     }
 
     @Test
+    @DisplayName(value = "Return List of UserDTO with successfully")
     void findAll() {
+        when(userService.findAll()).thenReturn(List.of(user));
+        when(modelMapper.map(any(), any())).thenReturn(userDTO);
+
+        ResponseEntity<List<UserDTO>> usersDTO = userResource.findAll();
+        assertNotNull(usersDTO);
+        assertNotNull(usersDTO.getBody());
+        assertEquals(HttpStatus.OK, usersDTO.getStatusCode());
+        assertEquals(ResponseEntity.class, usersDTO.getClass());
+        assertEquals(ArrayList.class, usersDTO.getBody().getClass());
+        assertNotNull(usersDTO.getBody().get(DEFAULT_INDEX));
+        assertEquals(UserDTO.class, usersDTO.getBody().get(DEFAULT_INDEX).getClass());
+        assertEquals(ID, usersDTO.getBody().get(DEFAULT_INDEX).getId());
+        assertEquals(EMAIL, usersDTO.getBody().get(DEFAULT_INDEX).getEmail());
+
     }
 
     @Test

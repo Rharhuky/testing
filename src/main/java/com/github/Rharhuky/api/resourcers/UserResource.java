@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +25,7 @@ public class UserResource {
     }
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll(){
-        return ResponseEntity.ok( userService.findAll().stream().map(user -> modelMapper.map(user, UserDTO.class)).toList());
+        return ResponseEntity.ok( userService.findAll().stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList()));
     }
 
     @PostMapping
