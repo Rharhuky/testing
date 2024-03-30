@@ -20,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserResourceTest {
@@ -121,7 +121,13 @@ class UserResourceTest {
     }
 
     @Test
+    @DisplayName(value = "Delete with Successfully")
     void delete() {
+        doNothing().when(userService).delete(anyLong());
+        ResponseEntity<UserDTO> userDTOResponseEntity = userResource.delete(ID);
+        assertNotNull(userDTOResponseEntity);
+        assertEquals(HttpStatus.NO_CONTENT, userDTOResponseEntity.getStatusCode());
+        verify(userService, times(1)).delete(anyLong());
     }
 
     private void startUser(){
