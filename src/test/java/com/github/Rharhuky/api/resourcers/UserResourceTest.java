@@ -78,6 +78,7 @@ class UserResourceTest {
         when(modelMapper.map(any(), any())).thenReturn(userDTO);
 
         ResponseEntity<List<UserDTO>> usersDTO = userResource.findAll();
+
         assertNotNull(usersDTO);
         assertNotNull(usersDTO.getBody());
         assertEquals(HttpStatus.OK, usersDTO.getStatusCode());
@@ -96,6 +97,7 @@ class UserResourceTest {
         when(userService.create(any(UserDTO.class))).thenReturn(user);
 
         ResponseEntity<UserDTO> userDTOResponseEntity = userResource.create(userDTO);
+
         assertNotNull(userDTOResponseEntity);
         assertEquals(HttpStatus.CREATED, userDTOResponseEntity.getStatusCode());
         assertEquals(ResponseEntity.class, userDTOResponseEntity.getClass());
@@ -104,7 +106,18 @@ class UserResourceTest {
     }
 
     @Test
+    @DisplayName(value = "UPDATE user with Successfully")
     void update() {
+        when(modelMapper.map(any(), any())).thenReturn(userDTO);
+        when(userService.update(ID, userDTO)).thenReturn(user);
+
+        ResponseEntity<UserDTO> userDTOResponseEntity = userResource.update(ID, userDTO);
+
+        assertNotNull(userDTOResponseEntity);
+        assertEquals(ResponseEntity.class, userDTOResponseEntity.getClass());
+        assertEquals(HttpStatus.OK, userDTOResponseEntity.getStatusCode());
+        assertNotNull(userDTOResponseEntity.getBody());
+        assertEquals(EMAIL, userDTOResponseEntity.getBody().getEmail());
     }
 
     @Test
