@@ -1,6 +1,6 @@
 package com.github.Rharhuky.api.resourcers.exceptions;
 
-import com.github.Rharhuky.api.service.exceptions.DataIntegratyViolationException;
+import com.github.Rharhuky.api.service.exceptions.DataIntegrityViolationException;
 import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -52,8 +52,8 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 //        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
 //    }
 
-    @ExceptionHandler(DataIntegratyViolationException.class)
-    public ResponseEntity<StandardError> handleDataIntegratyViolationException(DataIntegratyViolationException exception, HttpServletRequest webRequest){
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> handleDataIntegrityViolationException(DataIntegrityViolationException exception, HttpServletRequest webRequest){
 
         StandardError standardError = StandardError.builder()
                 .timestamp(LocalDateTime.now())
@@ -62,7 +62,7 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
                 .details(exception.getMessage())
                 .build();
 
-        return new ResponseEntity<>(standardError, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(standardError, HttpStatus.BAD_REQUEST);
     }
 
 }

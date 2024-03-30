@@ -5,7 +5,7 @@ import com.github.Rharhuky.api.domain.User;
 import com.github.Rharhuky.api.domain.dto.UserDTO;
 import com.github.Rharhuky.api.repositories.UserRepository;
 import com.github.Rharhuky.api.service.UserService;
-import com.github.Rharhuky.api.service.exceptions.DataIntegratyViolationException;
+import com.github.Rharhuky.api.service.exceptions.DataIntegrityViolationException;
 import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     private void findByEmail(UserDTO userDTO){
         userRepository.findByEmail(userDTO.getEmail()).ifPresent(user -> {
-            throw new DataIntegratyViolationException("Email já cadastrado :/");
+            throw new DataIntegrityViolationException("Email já cadastrado :/");
         });
     }
 

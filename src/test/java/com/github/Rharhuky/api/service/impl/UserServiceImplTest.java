@@ -3,7 +3,7 @@ package com.github.Rharhuky.api.service.impl;
 import com.github.Rharhuky.api.domain.User;
 import com.github.Rharhuky.api.domain.dto.UserDTO;
 import com.github.Rharhuky.api.repositories.UserRepository;
-import com.github.Rharhuky.api.service.exceptions.DataIntegratyViolationException;
+import com.github.Rharhuky.api.service.exceptions.DataIntegrityViolationException;
 import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -118,7 +118,7 @@ class UserServiceImplTest {
 
         }
         catch (Exception exception){
-            assertEquals(DataIntegratyViolationException.class, exception.getClass());
+            assertEquals(DataIntegrityViolationException.class, exception.getClass());
             assertEquals(EMAIL_JA_CADASTRADO, exception.getMessage());
         }
     }
@@ -144,7 +144,7 @@ class UserServiceImplTest {
 
         }
         catch (Exception exception){
-            assertEquals(DataIntegratyViolationException.class, exception.getClass());
+            assertEquals(DataIntegrityViolationException.class, exception.getClass());
             assertEquals(EMAIL_JA_CADASTRADO, exception.getMessage());
         }
     }

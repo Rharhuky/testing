@@ -1,5 +1,6 @@
 package com.github.Rharhuky.api.resourcers.exceptions;
 
+import com.github.Rharhuky.api.service.exceptions.DataIntegrityViolationException;
 import com.github.Rharhuky.api.service.exceptions.InfoNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class GeneralExceptionHandlerTest {
 
     public static final String INFO_NOT_FOUND = "Info not found";
+    public static final String EMAIL_ALREADY_EXISTS = "Info not found";
     @InjectMocks
     private GeneralExceptionHandler generalExceptionHandler;
 
@@ -40,5 +42,19 @@ class GeneralExceptionHandlerTest {
 
     @Test
     void handleDataIntegratyViolationException() {
+        ResponseEntity<StandardError> responseEntity = generalExceptionHandler.handleDataIntegrityViolationException(
+                new DataIntegrityViolationException(EMAIL_ALREADY_EXISTS),
+                new MockHttpServletRequest());
+
+        assertNotNull(responseEntity);
+        assertEquals(ResponseEntity.class, responseEntity.getClass());
+        assertNotNull(responseEntity.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(404, responseEntity.getBody().getStatus());
+        assertEquals(StandardError.class, responseEntity.getBody().getClass());
+        assertEquals();
+        assertEquals(EMAIL_ALREADY_EXISTS, responseEntity.getBody().getDetails());
+
+
     }
 }
