@@ -17,8 +17,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -92,7 +91,16 @@ class UserResourceTest {
     }
 
     @Test
+    @DisplayName(value = "Create user with successfully")
     void create() {
+        when(userService.create(any(UserDTO.class))).thenReturn(user);
+
+        ResponseEntity<UserDTO> userDTOResponseEntity = userResource.create(userDTO);
+        assertNotNull(userDTOResponseEntity);
+        assertEquals(HttpStatus.CREATED, userDTOResponseEntity.getStatusCode());
+        assertEquals(ResponseEntity.class, userDTOResponseEntity.getClass());
+        assertNull(userDTOResponseEntity.getBody());
+        assertNotNull(userDTOResponseEntity.getHeaders().get("Location"));
     }
 
     @Test
