@@ -2,7 +2,7 @@ package com.github.Rharhuky.api.resourcers;
 
 import com.github.Rharhuky.api.domain.dto.UserDTO;
 import com.github.Rharhuky.api.service.UserService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {

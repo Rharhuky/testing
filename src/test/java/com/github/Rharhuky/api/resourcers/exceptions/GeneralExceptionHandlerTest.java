@@ -21,8 +21,6 @@ class GeneralExceptionHandlerTest {
     @InjectMocks
     private GeneralExceptionHandler generalExceptionHandler;
 
-
-
     @Test
     @DisplayName(value = "Handle INFO NOT FOUND exception")
     void handleInfoNotFound() {
@@ -52,9 +50,6 @@ class GeneralExceptionHandlerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(404, responseEntity.getBody().getStatus());
         assertEquals(StandardError.class, responseEntity.getBody().getClass());
-        assertEquals();
         assertEquals(EMAIL_ALREADY_EXISTS, responseEntity.getBody().getDetails());
-
-
     }
 }
